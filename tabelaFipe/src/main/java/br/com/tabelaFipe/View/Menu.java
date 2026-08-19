@@ -9,6 +9,7 @@ import br.com.tabelaFipe.Model.Veiculo;
 import tools.jackson.core.type.TypeReference;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,26 +26,30 @@ public class Menu {
             url += escolha + "/marcas/";
             String json = requisicao.chamarApi(url);
             List<Veiculo> listaDeVeiculos = converterJson.converteJsonLista(json, new TypeReference<List<Veiculo>>(){});
-            System.out.println(listaDeVeiculos.toString());
+            Collections.sort(listaDeVeiculos);
+            System.out.println(listaDeVeiculos);
             System.out.println("Escolha o código da marca que você deseja consultar?");
             escolha = sc.nextLine();
             url += escolha + "/modelos/";
             json = requisicao.chamarApi(url);
             ListaModelosEanos listaModelosEanos = converterJson.converteJsonLista(json, new TypeReference<ListaModelosEanos>() {
             });
-            System.out.println(listaModelosEanos.toString());
+            Collections.sort(listaModelosEanos.modelos());
+            Collections.sort(listaModelosEanos.anos());
+            System.out.println(listaModelosEanos);
             System.out.println("Escolha o código do modelo para consultar os anos disponíveis para ele:");
             escolha = sc.nextLine();
             url += escolha + "/anos/";
             json = requisicao.chamarApi(url);
             List<Anos> listaDeAnosDeUmModeloEspecifico = converterJson.converteJsonLista(json, new TypeReference<List<Anos>>(){});
-            System.out.println(listaDeAnosDeUmModeloEspecifico.toString());
+            Collections.sort(listaDeAnosDeUmModeloEspecifico);
+            System.out.println(listaDeAnosDeUmModeloEspecifico);
             System.out.println("Escolha o código do ano para consultar:");
             escolha = sc.nextLine();
             url += escolha;
             json = requisicao.chamarApi(url);
             InfoVeiculo informacoesVeiculo = converterJson.converteJson(json, InfoVeiculo.class);
-            System.out.println(informacoesVeiculo.toString());
+            System.out.println(informacoesVeiculo);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
